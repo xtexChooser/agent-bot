@@ -1,0 +1,43 @@
+name: Build
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+  release:
+    types:
+      - created
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Java JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: adopt
+          cache: gradle
+
+      - name: Cache .gradle
+        uses: actions/cache@v3
+        with:
+          path: $USER_HOME/.gradle
+          key: ${{ runner.os }}-${{ hashFiles('*.gradle') }}-gradle-user-home
+
+      - name: Build
+        env:
+          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+        run: |
+          chmod +x ./gradlew
+          ./gradlew build
+
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          path: build/libs
