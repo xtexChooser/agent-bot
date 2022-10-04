@@ -29,6 +29,8 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('*.gradle') }}-gradle-user-home
 
       - name: Build
+        env:
+          GH_REF: ${{ github.ref }}
         run: |
           chmod +x ./gradlew
           ./gradlew build
@@ -50,4 +52,4 @@ jobs:
         run: |
           cd build/js/packages/agent-bot
           echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
-          npm publish
+          npm publish --no-workspaces

@@ -4,7 +4,11 @@ plugins {
 }
 
 group = "ml.xtex"
-version = "1.0-SNAPSHOT"
+if(System.getenv("GH_REF")?.startsWith("refs/tags/") != true) {
+    version = "dev"
+} else {
+    version = System.getenv("GH_REF").substring(10)
+}
 
 repositories {
     mavenCentral()
