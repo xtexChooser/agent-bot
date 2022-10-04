@@ -41,3 +41,17 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           path: build/libs
+
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          path: build/js/packages/agent-bot
+
+      - name: Publish to NPM
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          cd build/js/packages/agent-bot
+          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
+          npm publish

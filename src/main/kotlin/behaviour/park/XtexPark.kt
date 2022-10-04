@@ -21,7 +21,7 @@ object XtexPark {
     suspend fun BehaviourContext.buildWelcome() {
         onNewChatMembers {
             it.chatEvent.members.forEach { user ->
-                send(it.chat, "@${user.id} 欢迎，@xtexChooser，@xtexb，@xtexb。/hightech 查看更多功能")
+                send(it.chat, "@${user.id.chatId} 欢迎，@xtexChooser，@xtexb，@xtexb。/hightech 查看更多功能")
             }
         }
     }
