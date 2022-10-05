@@ -45,14 +45,6 @@ jobs:
         with:
           path: build/js/packages/agent-bot
 
-      - name: Publish node
-        if: startsWith(github.ref, 'refs/tags/')
-        run: |
-          cd build/js/packages/agent-bot
-          echo "registry=https://npm.pkg.github.com/xtexChooser/" > .npmrc
-          echo "//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}" >> .npmrc
-          npm publish --access=public --no-workspaces
-
       - name: Publish
         if: startsWith(github.ref, 'refs/tags/')
         run: |
