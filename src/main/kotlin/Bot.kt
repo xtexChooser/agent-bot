@@ -35,7 +35,7 @@ object Bot {
         GlobalScope.launch {
             KotlinLoggingConfiguration.LOG_LEVEL = KotlinLoggingLevel.DEBUG
             logger.info { "Starting bot" }
-            config = Json.decodeFromString<Config>(fs["config.json"].readString())
+            config = Json.decodeFromString((fs["config.json"].takeIfExists() ?: fs["config/config.json"]).readString())
             logger.info { "API Endpoint: ${config.api}" }
             bot = telegramBot(config.token, apiUrl = config.api)
 
