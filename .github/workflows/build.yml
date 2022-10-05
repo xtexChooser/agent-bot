@@ -51,4 +51,4 @@ jobs:
         run: |
           docker login ghcr.io -u xtexChooser --password ${{ secrets.GITHUB_TOKEN }}
           docker build -t agent-bot .
-          docker push ghcr.io/xtexChooser/agent-bot:latest
+          docker push ghcr.io/xtexchooser/agent-bot:latest
