@@ -26,7 +26,7 @@ object Updater {
     }
 
     suspend fun getLatestVersion() =
-        JSON.parse<dynamic>(createHttpClient().readString("https://registry.yarnpkg.com/agent-bot/latest"))
+        JSON.parse<dynamic>(createHttpClient().readString("https://registry.npmjs.com/agent-bot/latest"))
             .version
 
     fun getCurrentVersion() =
