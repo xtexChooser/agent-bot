@@ -6,5 +6,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Config(
     val token: String,
-    val api: String = "https://rp.chitang.dev/$telegramBotAPIDefaultUrl",
+    val api: String = telegramBotAPIDefaultUrl,
 )
