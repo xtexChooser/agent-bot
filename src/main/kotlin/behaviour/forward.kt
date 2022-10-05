@@ -4,6 +4,7 @@ import com.soywiz.klock.ISO8601
 import dev.inmo.tgbotapi.extensions.api.forwardMessage
 import dev.inmo.tgbotapi.extensions.api.send.reply
 import dev.inmo.tgbotapi.extensions.api.send.send
+import dev.inmo.tgbotapi.extensions.api.send.sendActionTyping
 import dev.inmo.tgbotapi.extensions.behaviour_builder.BehaviourContext
 import dev.inmo.tgbotapi.extensions.behaviour_builder.triggers_handling.onContentMessage
 import dev.inmo.tgbotapi.extensions.utils.asTextedInput
@@ -18,6 +19,7 @@ suspend fun BehaviourContext.buildForward() {
     onContentMessage {
         if (it.chat is PrivateChat && it.content.asTextedInput()?.text?.startsWith('/') != true) {
             Bot.logger.info { "Trying to forward a message, $it" }
+            sendActionTyping(it.chat)
             val forward = if (it.forwardable) {
                 forwardMessage(ChatId(ChatConsts.User.XTEX), it)
             } else {
