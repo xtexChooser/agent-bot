@@ -17,6 +17,7 @@ import kotlinx.serialization.json.Json
 import ml.xtexx.agentBot.behaviour.*
 import ml.xtexx.agentBot.behaviour.dn42.buildWhois
 import ml.xtexx.agentBot.behaviour.park.XtexPark
+import ml.xtexx.agentBot.util.Updater
 import mu.KotlinLogging
 import mu.KotlinLoggingConfiguration
 import mu.KotlinLoggingLevel
@@ -37,6 +38,10 @@ object Bot {
             config = Json.decodeFromString<Config>(fs["config.json"].readString())
             logger.info { "API Endpoint: ${config.api}" }
             bot = telegramBot(config.token, apiUrl = config.api)
+
+            launch {
+                Updater.check()
+            }
 
             launch {
                 val self = bot.getMe()
