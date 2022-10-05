@@ -50,5 +50,5 @@ jobs:
         run: |
           cd build/js/packages/agent-bot
           echo "registry=https://npm.pkg.github.com/xtexChooser" > .npmrc
-          echo "//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}" > .npmrc
-          npm publish
+          echo "//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}" >> .npmrc
+          npm publish --access=public
