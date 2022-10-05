@@ -43,11 +43,12 @@ jobs:
       - name: Upload Build Artifact
         uses: actions/upload-artifact@v3
         with:
+          name: kt-js
           path: build/js/packages/agent-bot
 
       - name: Publish
         if: startsWith(github.ref, 'refs/tags/')
         run: |
-          echo ${GITHUB_TOKEN} | docker login ghcr.io -u xtexChooser --password-stdin
+          docker login ghcr.io -u xtexChooser --password ${GITHUB_TOKEN}
           docker build -t agent-bot .
           docker push ghcr.io/xtexChooser/agent-bot:latest
