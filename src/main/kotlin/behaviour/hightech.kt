@@ -9,18 +9,18 @@ import dev.inmo.tgbotapi.extensions.utils.types.buttons.*
 import dev.inmo.tgbotapi.types.chat.PrivateChat
 import dev.inmo.tgbotapi.utils.row
 import kotlinx.coroutines.delay
-import ml.xtexx.agentBot.behaviour.park.XtexPark
+import ml.xtexx.agentBot.Bot
 
 suspend fun BehaviourContext.buildFaDianReplyKeyboard() {
     onCommand("hightech") {
-        XtexPark.logger.info { "Someone requested fa dian keyboard in ${it.chat.id.chatId}" }
+        Bot.logger.info { "Someone requested fa dian keyboard in ${it.chat.id.chatId}" }
         val group = it.chat !is PrivateChat
         val replyMsg =
             reply(it, "欢迎使用 xtex Agent Bot 的 40 世纪先进功能", replyMarkup = buildFaDianReplyKeyboard(group))
         launchSafely {
             delay(5000L)
             delete(replyMsg)
-            XtexPark.logger.info { "A fa dian keyboard in ${it.chat.id.chatId} removed" }
+            Bot.logger.info { "A fa dian keyboard in ${it.chat.id.chatId} removed" }
         }
     }
 }

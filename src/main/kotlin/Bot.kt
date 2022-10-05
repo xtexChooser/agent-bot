@@ -1,6 +1,7 @@
 package ml.xtexx.agentBot
 
 import com.soywiz.korio.file.std.localCurrentDirVfs
+import dev.inmo.tgbotapi.bot.TelegramBot
 import dev.inmo.tgbotapi.extensions.api.bot.getMe
 import dev.inmo.tgbotapi.extensions.api.bot.setMyCommands
 import dev.inmo.tgbotapi.extensions.api.telegramBot
@@ -14,6 +15,7 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import ml.xtexx.agentBot.behaviour.*
+import ml.xtexx.agentBot.behaviour.dn42.buildWhois
 import ml.xtexx.agentBot.behaviour.park.XtexPark
 import mu.KotlinLogging
 import mu.KotlinLoggingConfiguration
@@ -25,7 +27,7 @@ object Bot {
 
     val fs = localCurrentDirVfs
     lateinit var config: Config
-    val bot = telegramBot(config.token, apiUrl = config.api)
+    lateinit var bot: TelegramBot
 
     fun start() {
         @OptIn(DelicateCoroutinesApi::class)
@@ -34,14 +36,23 @@ object Bot {
             logger.info { "Starting bot" }
             config = Json.decodeFromString<Config>(fs["config.json"].readString())
             logger.info { "API Endpoint: ${config.api}" }
-            val self = bot.getMe()
-            logger.info { "Self: $self" }
+            bot = telegramBot(config.token, apiUrl = config.api)
 
-            bot.setMyCommands(
-                BotCommand("identity", "查看聊天ID"),
-                BotCommand("search_engine", "善 用 搜 索"),
-                BotCommand("hightech", "快速发消息菜单（群聊）未来高科技（私聊）"),
-            )
+            launch {
+                val self = bot.getMe()
+                logger.info { "Self: $self" }
+            }
+
+            launch {
+                logger.info { "Updating commands" }
+                bot.setMyCommands(
+                    BotCommand("identity", "查看聊天 ID"),
+                    BotCommand("search_engine", "善 用 搜 索"),
+                    BotCommand("hightech", "快速发消息菜单（群聊）未来高科技（私聊）"),
+                    BotCommand("whois", "查询 DN42 的 WHOIS 信息"),
+                )
+                logger.info { "Commands updated" }
+            }
 
             bot.buildBehaviourWithLongPolling(defaultExceptionsHandler = {
                 var e: Throwable? = it
@@ -62,6 +73,7 @@ object Bot {
                     buildWelcome()
                 }
                 buildFaDianReplyKeyboard()
+                buildWhois()
             }.join()
         }
     }
