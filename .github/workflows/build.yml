@@ -50,5 +50,6 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         run: |
           docker login ghcr.io -u xtexChooser --password ${{ secrets.GITHUB_TOKEN }}
-          docker build -t agent-bot .
+          docker build -t ghcr.io/xtexchooser/agent-bot .
+          docker images
           docker push ghcr.io/xtexchooser/agent-bot:latest
