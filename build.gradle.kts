@@ -1,6 +1,6 @@
 plugins {
     kotlin("js") version "1.7.20"
-    kotlin("plugin.serialization") version "1.7.20"
+    kotlin("plugin.serialization") version "1.8.0"
 }
 
 group = "ml.xtex"
