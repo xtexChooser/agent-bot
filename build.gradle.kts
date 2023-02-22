@@ -16,7 +16,7 @@ repositories {
 
 dependencies {
     testImplementation(kotlin("test"))
-    implementation("dev.inmo:tgbotapi:3.2.7")
+    implementation("dev.inmo:tgbotapi:5.2.1")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0")
     implementation("com.soywiz.korlibs.korio:korio:3.2.0")
